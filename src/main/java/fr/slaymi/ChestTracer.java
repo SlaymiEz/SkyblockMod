@@ -22,7 +22,8 @@ import scala.tools.nsc.doc.model.Def;
 
 public class ChestTracer {
     public static final int SEARCH_RADIUS = 10;
-
+    public static boolean actived = false;
+    public static float width = (float) 8.0;
     @SubscribeEvent
     public void onRenderWorldLast(RenderWorldLastEvent event){
         renderTracers(event.partialTicks);
@@ -35,9 +36,9 @@ public class ChestTracer {
                 for (int z = (int) player.posZ - SEARCH_RADIUS; z <= (int) player.posZ + SEARCH_RADIUS; z++) {
                     BlockPos pos = new BlockPos(x, y, z);
                     if (Minecraft.getMinecraft().theWorld.getBlockState(pos).getBlock() instanceof BlockChest) {
-                        //renderTracer(player, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
-                        blockESPBox(pos);
-                        System.out.println("ezzzzzzzz");
+                        if (actived == true) {
+                            blockESPBox(pos);
+                        }
                     }
                 }
             }
@@ -56,8 +57,8 @@ public class ChestTracer {
         GlStateManager.popMatrix();
         GlStateManager.pushAttrib();
     }
-    public static void blockESPBox(BlockPos blockPos)
-    {
+    public static void blockESPBox(BlockPos blockPos) {
+
         double x =
                 blockPos.getX() - Minecraft.getMinecraft().getRenderManager().viewerPosX;
         double y =
@@ -66,7 +67,7 @@ public class ChestTracer {
                 blockPos.getZ() - Minecraft.getMinecraft().getRenderManager().viewerPosZ;
         GL11.glBlendFunc(770, 771);
         GL11.glEnable(GL11.GL_BLEND);
-        GL11.glLineWidth(8.0F);
+        GL11.glLineWidth(width);
         GL11.glColor4d(0, 1, 0, 0.15F);
         GL11.glDisable(GL11.GL_TEXTURE_2D);
         GL11.glDisable(GL11.GL_DEPTH_TEST);
@@ -79,5 +80,4 @@ public class ChestTracer {
         GL11.glDepthMask(true);
         GL11.glDisable(GL11.GL_BLEND);
     }
-
 }

@@ -11,6 +11,7 @@ public class SlaymiMod {
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
         ClientCommandHandler.instance.registerCommand(new Waypoint());
+        ClientCommandHandler.instance.registerCommand(new ChestCommand());
         //MinecraftForge.EVENT_BUS.register(new MyEventHandlerClass());
         //MinecraftForge.EVENT_BUS.register(new TestTessellator());
         MinecraftForge.EVENT_BUS.register(new ChestTracer());
