@@ -1,10 +1,13 @@
 package fr.slaymi;
 
 
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.RenderGlobal;
+import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ChatComponentText;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.block.BlockChest;
@@ -15,22 +18,41 @@ import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.lwjgl.Sys;
 import org.lwjgl.opengl.GL11;
 import scala.tools.nsc.doc.model.Def;
 
 
 public class ChestTracer {
-    public static final int SEARCH_RADIUS = 10;
+    public static final int SEARCH_RADIUS = 15;
     public static boolean actived = false;
     public static float width = (float) 8.0;
+    private Minecraft mc = Minecraft.getMinecraft();
+    private ChestGUI chestText = new ChestGUI();
+
+    public static int nearbyChestsPublic = 0;
+
+    private static int nearbyChests = 0;
     @SubscribeEvent
     public void onRenderWorldLast(RenderWorldLastEvent event){
         renderTracers(event.partialTicks);
     }
+    @SubscribeEvent
+    public void onRenderGameOverlay(RenderGameOverlayEvent.Text event){
+        ScaledResolution scaledResolution = new ScaledResolution(mc);
+        if (actived == true) {
+            chestText.drawScreen(scaledResolution.getScaledWidth(), scaledResolution.getScaledHeight(), event.partialTicks);
+        }
+    }
+    @SubscribeEvent
+    public void onClientTick(TickEvent.ClientTickEvent event){
+        chestText.updateScreen();
+    }
 
     public static void renderTracers(float partialTick){
         EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+        nearbyChests = 0;
         for (int x = (int) player.posX - SEARCH_RADIUS; x <= (int) player.posX + SEARCH_RADIUS; x++){
             for(int y = (int) player.posY - SEARCH_RADIUS; y <= (int) player.posY + SEARCH_RADIUS; y++) {
                 for (int z = (int) player.posZ - SEARCH_RADIUS; z <= (int) player.posZ + SEARCH_RADIUS; z++) {
@@ -38,11 +60,13 @@ public class ChestTracer {
                     if (Minecraft.getMinecraft().theWorld.getBlockState(pos).getBlock() instanceof BlockChest) {
                         if (actived == true) {
                             blockESPBox(pos);
+                            nearbyChests += 1;
                         }
                     }
                 }
             }
         }
+        nearbyChestsPublic = nearbyChests;
     }
     private static void renderTracer(EntityPlayer player, double chestX, double chestY, double chestZ){
         WorldRenderer worldRenderer = Tessellator.getInstance().getWorldRenderer();
