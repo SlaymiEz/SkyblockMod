@@ -1,11 +1,11 @@
 [
   {
     "modid": "${modid}",
-    "name": "Xample Mod",
-    "description": "A mod that is used as an example.",
+    "name": "Slaymi's Mod",
+    "description": "Un mod trop baka desune",
     "version": "${version}",
     "mcversion": "${mcversion}",
-    "url": "https://github.com/romangraef/Forge1.8.9Template/",
+    "url": "URL trop dark sasuke on donne pas",
     "updateUrl": "",
     "authorList": [
       "You"
