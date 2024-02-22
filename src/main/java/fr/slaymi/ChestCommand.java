@@ -54,9 +54,6 @@ public class ChestCommand extends CommandBase {
                     CommandException exception = new CommandException("get rekt idiot");
                     throw exception;
                 }
-            } else {
-                CommandException exception = new CommandException("get rekt idiot");
-                throw exception;
             }
         } else {
             CommandException exception = new CommandException("get rekt idiot");
