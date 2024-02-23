@@ -41,9 +41,12 @@ public class ChestTracer {
     public static List<IBlockState> openedChests = new ArrayList<>();
     public static final int SEARCH_RADIUS = 15;
     public static boolean actived = false;
+    public static boolean autoChest = false;
     public static float width = (float) 8.0;
     private static Minecraft mc = Minecraft.getMinecraft();
     private ChestGUI chestText = new ChestGUI();
+    public static int drillSlot = 1;
+    public static int pickSlot = 0;
 
     public static int nearbyChestsPublic = 0;
 
@@ -62,8 +65,10 @@ public class ChestTracer {
     @SubscribeEvent
     public void onClientTick(TickEvent.ClientTickEvent event){
         chestText.updateScreen();
-        checkChest();
-        checkStone();
+        if (autoChest) {
+            checkChest();
+            checkStone();
+        }
     }
 
     private static void debugChestCheck(){
@@ -81,7 +86,7 @@ public class ChestTracer {
         if (actived) {
             if (target != null && target.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
                 if (Minecraft.getMinecraft().theWorld.getBlockState(target.getBlockPos()).getBlock() instanceof BlockStone) {
-                    mc.thePlayer.inventory.currentItem = 0;
+                    mc.thePlayer.inventory.currentItem = pickSlot;
                 }
             }
         }
@@ -92,7 +97,7 @@ public class ChestTracer {
             if (target != null && target.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
                 if (Minecraft.getMinecraft().theWorld.getBlockState(target.getBlockPos()).getBlock() instanceof BlockChest) {
                     if (!openedChests.contains(mc.theWorld.getBlockState(target.getBlockPos()))) {
-                        Minecraft.getMinecraft().thePlayer.inventory.currentItem = 1;
+                        Minecraft.getMinecraft().thePlayer.inventory.currentItem = drillSlot;
                         KeyBinding.onTick(mc.gameSettings.keyBindUseItem.getKeyCode());
                         openedChests.add(mc.theWorld.getBlockState(target.getBlockPos()));
                     }
