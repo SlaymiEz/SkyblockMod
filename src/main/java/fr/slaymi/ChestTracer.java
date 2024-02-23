@@ -9,12 +9,9 @@ import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.block.BlockChest;
 import net.minecraft.client.Minecraft;
@@ -23,11 +20,7 @@ import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.BlockPos;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
-import org.lwjgl.Sys;
 import org.lwjgl.opengl.GL11;
-
-
-import javax.swing.text.JTextComponent;
 import java.util.ArrayList;
 import java.util.List;
 

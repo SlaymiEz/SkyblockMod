@@ -8,7 +8,6 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
-
 import java.util.ArrayList;
 import java.util.List;
 
