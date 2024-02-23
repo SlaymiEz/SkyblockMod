@@ -39,7 +39,7 @@ public class ChestTracer {
     }
     public static List<BlockPos> chestPositions = new ArrayList<>();
     public static List<IBlockState> openedChests = new ArrayList<>();
-    public static final int SEARCH_RADIUS = 15;
+    public static int SEARCH_RADIUS = 15;
     public static boolean actived = false;
     public static boolean autoChest = false;
     public static float width = (float) 8.0;

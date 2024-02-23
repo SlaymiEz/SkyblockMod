@@ -56,6 +56,11 @@ public class ChestCommand extends CommandBase {
                     throw exception;
                 }
             }
+            if (args[0].equals("radius")){
+                int i = Integer.valueOf(args[1]);
+                ChestTracer.SEARCH_RADIUS = i;
+                chatLog("Successfully set the search radius to " + EnumChatFormatting.GREEN + i);
+            }
         }
         if (args.length == 3){
             if (args[0].equals("auto")){
