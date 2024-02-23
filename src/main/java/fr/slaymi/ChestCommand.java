@@ -55,9 +55,14 @@ public class ChestCommand extends CommandBase {
                     throw exception;
                 }
             }
-        } else {
-            CommandException exception = new CommandException("get rekt idiot");
-            throw exception;
+        }
+        if (args.length == 1) {
+            if (args[0].equals("debug")) {
+                ChestTracer.openedChests.clear();
+            } else {
+                CommandException exception = new CommandException("get rekt idiot");
+                throw exception;
+            }
         }
     }
     @Override
