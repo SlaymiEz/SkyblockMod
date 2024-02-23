@@ -6,7 +6,6 @@ import net.minecraft.block.BlockStone;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.RenderGlobal;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MovingObjectPosition;
@@ -15,8 +14,6 @@ import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.block.BlockChest;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.BlockPos;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
@@ -36,14 +33,13 @@ public class ChestTracer {
     public static boolean actived = false;
     public static boolean autoChest = false;
     public static float width = (float) 8.0;
-    private static Minecraft mc = Minecraft.getMinecraft();
-    private ChestGUI chestText = new ChestGUI();
+    private static final Minecraft mc = Minecraft.getMinecraft();
+    private final ChestGUI chestText = new ChestGUI();
     public static int drillSlot = 1;
     public static int pickSlot = 0;
 
     public static int nearbyChestsPublic = 0;
 
-    private static int nearbyChests = 0;
     @SubscribeEvent
     public void onRenderWorldLast(RenderWorldLastEvent event){
         renderESP(event.partialTicks);
@@ -51,7 +47,7 @@ public class ChestTracer {
     @SubscribeEvent
     public void onRenderGameOverlay(RenderGameOverlayEvent.Text event){
         ScaledResolution scaledResolution = new ScaledResolution(mc);
-        if (actived == true) {
+        if (actived) {
             chestText.drawScreen(scaledResolution.getScaledWidth(), scaledResolution.getScaledHeight(), event.partialTicks);
         }
     }
@@ -101,14 +97,14 @@ public class ChestTracer {
 
     public static void renderESP(float partialTick){
         EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-        nearbyChests = 0;
+        int nearbyChests = 0;
         chestPositions.clear();
-        for (int x = (int) player.posX - SEARCH_RADIUS; x <= (int) player.posX + SEARCH_RADIUS; x++){
-            for(int y = (int) player.posY - SEARCH_RADIUS; y <= (int) player.posY + SEARCH_RADIUS; y++) {
-                for (int z = (int) player.posZ - SEARCH_RADIUS; z <= (int) player.posZ + SEARCH_RADIUS; z++) {
-                    BlockPos pos = new BlockPos(x, y, z);
-                    if (Minecraft.getMinecraft().theWorld.getBlockState(pos).getBlock() instanceof BlockChest) {
-                        if (actived == true) {
+        if (actived) {
+            for (int x = (int) player.posX - SEARCH_RADIUS; x <= (int) player.posX + SEARCH_RADIUS; x++) {
+                for (int y = (int) player.posY - SEARCH_RADIUS; y <= (int) player.posY + SEARCH_RADIUS; y++) {
+                    for (int z = (int) player.posZ - SEARCH_RADIUS; z <= (int) player.posZ + SEARCH_RADIUS; z++) {
+                        BlockPos pos = new BlockPos(x, y, z);
+                        if (Minecraft.getMinecraft().theWorld.getBlockState(pos).getBlock() instanceof BlockChest) {
                             if (!chestPositions.contains(pos)) chestPositions.add(pos);
                             if (!ChestCommand.blPos.contains(pos)) {
                                 blockESPBox(pos);
@@ -121,33 +117,6 @@ public class ChestTracer {
             }
         }
         nearbyChestsPublic = nearbyChests;
-    }
-    private static void renderTracer(EntityPlayer player, double chestX, double chestY, double chestZ){
-        GL11.glPushMatrix();
-        try {
-            GL11.glTranslated(-Minecraft.getMinecraft().getRenderManager().viewerPosX, -Minecraft.getMinecraft().getRenderManager().viewerPosY, -Minecraft.getMinecraft().getRenderManager().viewerPosZ);
-            GL11.glDisable(GL11.GL_TEXTURE_2D);
-            GL11.glDisable(GL11.GL_LIGHTING);
-            GL11.glEnable(GL11.GL_BLEND);
-            GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-            GL11.glLineWidth(width);
-
-            Tessellator tessellator = Tessellator.getInstance();
-            WorldRenderer worldRenderer = tessellator.getWorldRenderer();
-
-            worldRenderer.begin(GL11.GL_LINE, DefaultVertexFormats.POSITION_COLOR);
-            worldRenderer.pos(chestX, chestY, chestZ).color(255, 0, 0, 255).endVertex();
-            worldRenderer.pos(player.posX, player.posY, player.posZ).color(255, 0, 0, 255).endVertex();
-
-            tessellator.draw();
-        } catch (Exception e){
-            e.printStackTrace();
-        } finally {
-            GL11.glDisable(GL11.GL_BLEND);
-            GL11.glEnable(GL11.GL_LIGHTING);
-            GL11.glEnable(GL11.GL_TEXTURE_2D);
-            GL11.glPopMatrix();
-        }
     }
     public static void blockESPBox(BlockPos blockPos) {
 
