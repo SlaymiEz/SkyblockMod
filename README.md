@@ -13,7 +13,7 @@ The goal of this project is to add multiple various features to learn how to mak
     level)
   - An auto chest opener (speaks for
     itself)
-  - An auto hotbar management that
+  - An auto hotbar management system that
     automaticlly swaps between your
     pickaxe when mining stone and your
     tool to open chests
