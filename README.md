@@ -5,7 +5,7 @@ This GitHub repository is a mod meant to improve the experience playing Hypixel 
 The goal of this project is to add multiple various features to learn how to make Minecraft mods.
 
 ## Features
-- A powder mining helper featuring
+- A powder mining helper featuring :
   - A nearby chest counter that scans
     blocks around the player
   - A Chest ESP to view chests through
