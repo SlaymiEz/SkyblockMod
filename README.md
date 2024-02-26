@@ -24,16 +24,24 @@ The goal of this project is to add multiple various features to learn how to mak
     - on
     - off
   - width
-    - (insert said width here)
+    - (insert said ESP width here)
   - bl
     - add (blacklist chests so that they
       don't count as nearby chests and the
       ESP doesn't render around it)
     - clear (clears the blacklisted chests
       list)
-  - slots
-    - pick
-      - (insert hotbar value of your pick)
-    - drill
-      - (insert hotbar value of your
-        drill)
+  - radius
+    - (insert the wanted radius for chests
+      detection)
+  - auto
+    - set
+      - on
+      - off
+    - slots
+      - pick
+        - (insert hotbar value of your
+          pick)
+      - drill
+        - (insert hotbar value of your
+          drill)
