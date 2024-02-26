@@ -45,3 +45,7 @@ The goal of this project is to add multiple various features to learn how to mak
       - drill
         - (insert hotbar value of your
           drill)
+
+## Notes
+- If /chestConfig doesn't work for you, try using /chestconfig instead.
+- Every single feature of this mod is CLIENT SIDE so you don't send any packets. Thus, you don't trigger any Watchdog flags
