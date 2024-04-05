@@ -49,5 +49,4 @@ The goal of this project is to add multiple various features to learn how to mak
 ## Notes
 - If /chestConfig doesn't work for you, try using /chestconfig instead.
 - Every single feature of this mod is CLIENT SIDE so you don't send any packets. Thus, you don't trigger any Watchdog flags. This means the only way you can get banned is if a staff watches you and bans you (very unlikely).
-- This mod is private. If someone gave you acces to it, don't share it without asking me (@_slaymi on discord).
 
